@@ -6,7 +6,7 @@ spring:
 server:
   port: 7001
 spring:
- profiles: dev # 开发环境
+  profiles: dev # 开发环境
   application:
     name: spider-zuul-gateway
 eureka:
@@ -38,7 +38,7 @@ zuul:
 server:
   port: 7001
 spring:
- profiles: dev # 开发环境
+  profiles: dev # 开发环境
   application:
     name: spider-zuul-gateway
 eureka:
