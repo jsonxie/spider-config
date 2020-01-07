@@ -18,7 +18,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
-    url: jdbc:mysql://127.0.0.1:3306/spider_cms_dev?serverTimezone=GMT%2B8  # 数据库名称
+    url: jdbc:mysql://127.0.0.1:3306/spider_cms_dev8002?serverTimezone=GMT%2B8  # 数据库名称
     username: root
     password: yqkj2018
     dbcp2:
@@ -58,7 +58,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
     driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
-    url: jdbc:mysql://127.0.0.1:3306/spider_cms_prod?serverTimezone=GMT%2B8  # 数据库名称
+    url: jdbc:mysql://127.0.0.1:3306/spider_cms_prod8002?serverTimezone=GMT%2B8  # 数据库名称
     username: root
     password: yqkj2018
     dbcp2:
