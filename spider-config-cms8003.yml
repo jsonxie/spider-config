@@ -38,7 +38,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: hystrix.stream
+        include: "*"
 ---
 server:
   port: 8003
@@ -76,4 +76,4 @@ management:
   endpoints:
     web:
       exposure:
-        include: hystrix.stream
+        include: "*"
