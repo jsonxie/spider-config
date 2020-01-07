@@ -34,11 +34,7 @@ eureka:
   instance:
     instanceId: ${spring.application.name}:${server.port}
     prefer-ip-address: true
-management:
-  endpoints:
-    web:
-      exposure:
-        include: hystrix.stream
+
 ---
 server:
   port: 8002
