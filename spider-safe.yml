@@ -60,7 +60,7 @@ eureka:
 #spring配置
 spring:
   #应用配置
-  profiles: prod# 开发环境
+  profiles: prod # 开发环境
   application:
     #名称: OAuth2认证授权服务
     name: spider-safe
