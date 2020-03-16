@@ -7,6 +7,10 @@ spring:
 server:
   #端口
   port: 6004
+mybatis:
+  config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.yq.spider.entity
+  mapper-locations: classpath:mybatis/mapper/**/*.xml
 #服务器发现注册配置
 eureka:
   client:
