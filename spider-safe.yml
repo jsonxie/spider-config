@@ -19,7 +19,8 @@ mybatis-plus:
   #实体扫描，多个package用逗号或者分号分隔
   type-aliases-package: com.yq.spider.entity
   configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl 
+    log-impl: 
+      org.apache.ibatis.logging.stdout.StdOutImpl 
 
 #服务器发现注册配置
 eureka:
