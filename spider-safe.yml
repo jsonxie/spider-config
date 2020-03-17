@@ -53,13 +53,6 @@ security:
   oauth2:
     resource:
       filter-order: 3
-logging:
-  level:
-    root: INFO
-    org.hibernate: INFO
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.hibernate.type.descriptor.sql.BasicExtractor: TRACE
-    com.authorize: DEBUG
 ---
 #服务器配置
 server:
