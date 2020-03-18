@@ -5,7 +5,7 @@ spring:
 ---
 #服务器配置
 server:
-  #端口
+  #端口1
   port: 6004
 #mybatis:
   #config-location: classpath:mybatis/mybatis.cfg.xml
