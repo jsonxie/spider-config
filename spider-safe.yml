@@ -49,11 +49,11 @@ feign:
   hystrix:
     enabled: true # 开启服务熔断器
 #安全配置
-security:
+#security:
   #oauth2配置
-  oauth2:
-    resource:
-      filter-order: 3
+  #oauth2:
+    #resource:
+      #filter-order: 3
 ---
 #服务器配置
 server:
