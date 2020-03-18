@@ -12,6 +12,7 @@ server:
 mybatis-plus:
   # 如果是放在src/main/java目录下 classpath:/com/yourpackage/*/mapper/*Mapper.xml
   config-location: classpath:mybatis/mybatis.cfg.xml
+  type-aliases-package: com.yq.spider.entity
   mapper-locations: classpath:/mybatis/mapper/*.xml
 spring:
   profiles: dev # 开发环境
