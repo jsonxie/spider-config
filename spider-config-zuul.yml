@@ -9,6 +9,16 @@ spring:
   profiles: dev # 开发环境
   application:
     name: spider-zuul-gateway
+# 加解密根密码
+jasypt:
+  encryptor:
+    password: pig #根密码
+
+# Spring 相关
+spring:
+  redis:
+    password: 123456
+    host: localhost
 eureka:
   client:
     registerWithEureka: true # 服务注册开关
@@ -41,15 +51,45 @@ zuul:
       #path: /order/**
       #serviceId: spider-order
       #stripPrefix: false
-#security:
-  #oauth2:
-    #client:
-      #accessTokenUri: /oauth/token
-      #clientId: frontend
-      #clientSecret: frontend
-    #resource:
-      #userInfoUri: /user
-      #token-info-uri: /oauth/check_token
+# feign 配置
+feign:
+  hystrix:
+    enabled: true
+  okhttp:
+    enabled: true
+  httpclient:
+    enabled: false
+  client:
+    config:
+      default:
+        connectTimeout: 10000
+        readTimeout: 10000
+  compression:
+    request:
+      enabled: true
+    response:
+      enabled: true
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+  shareSecurityContext: true
+# spring security 配置
+security:
+  oauth2:
+    resource:
+      loadBalanced: true
+      token-info-uri: http://localhost:3002/oauth/check_token
+    # 通用放行URL，服务个性化，请在对应配置文件覆盖
+    ignore:
+      urls:
+        - /v2/api-docs
+        - /actuator/**
   #filter-order: 1
 ---
 server:
