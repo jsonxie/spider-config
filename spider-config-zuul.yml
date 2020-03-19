@@ -28,6 +28,10 @@ eureka:
 jasypt:
   encryptor:
     password: pig
+#请求处理的超时时间
+ribbon:
+  ReadTimeout: 10000
+  ConnectTimeout: 10000
 feign:
   hystrix:
     enabled: true # 开启服务熔断器
