@@ -1,95 +1,12 @@
-#注意：如果在记事本上编写，下面的缩进不要使用Tab来缩进，不然报错
-spring:
-  profiles:
-    active: dev # 激活开发环境配置
----
 server:
   port: 7001
 spring:
-  profiles: dev # 开发环境
+  profiles: dev
   application:
     name: spider-zuul-gateway
-# 加解密根密码
-jasypt:
-  encryptor:
-    password: pig #根密码
-
-# Spring 相关
-spring:
   redis:
     password: 123456
     host: localhost
-eureka:
-  client:
-    fetch-registry: false
-    register-with-eureka: false
-
-zuul:
-  routes:
-    #auth:     #认证服务
-      #响应的路径
-      #path: /login/**
-      #敏感头信息
-      #sensitiveHeaders: Cookie,Set-Cookie
-      #重定向到的服务（根据服务id名称从注册中心获取服务地址）
-      #serviceId:  spider-safe
-    provider-product:    # 路由名称，名称任意，路由名称唯一
-      path: /product/** # 访问路径
-      serviceId: spider-cms # 指定服务ID，会自动从Eureka中找到此服务的ip和端口
-      stripPrefix: false # 代理转发时去掉前缀，false:代理转发时不去掉前缀 例如:为true时请求 /product/get/1，代理转发到/get/1
-
-    # 如果多个服务需要经过路由，则同povider-product方式继续添加，例如：
-    #provider-order:
-      #path: /order/**
-      #serviceId: spider-order
-      #stripPrefix: false
-# feign 配置
-feign:
-  hystrix:
-    enabled: true
-  okhttp:
-    enabled: true
-  httpclient:
-    enabled: false
-  client:
-    config:
-      default:
-        connectTimeout: 10000
-        readTimeout: 10000
-  compression:
-    request:
-      enabled: true
-    response:
-      enabled: true
-# hystrix 配置
-hystrix:
-  command:
-    default:
-      execution:
-        isolation:
-          strategy: SEMAPHORE
-          thread:
-            timeoutInMilliseconds: 60000
-  shareSecurityContext: true
-# spring security 配置
-security:
-  oauth2:
-    resource:
-      loadBalanced: true
-      token-info-uri: http://localhost:3002/oauth/check_token
-    # 通用放行URL，服务个性化，请在对应配置文件覆盖
-    ignore:
-      urls:
-        - /v2/api-docs
-        - /actuator/**
-  #filter-order: 1
----
-server:
-  port: 7001
-spring:
-  profiles: dev # 开发环境
-  application:
-    name: spider-zuul-gateway
 eureka:
   client:
     registerWithEureka: true # 服务注册开关
@@ -102,16 +19,66 @@ eureka:
   instance:
     instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
     preferIpAddress: true     #访问路径可以显示IP地址
-
-zuul:
-  routes:
-    provider-product:    # 路由名称，名称任意，路由名称唯一
-      path: /product/** # 访问路径
-      serviceId: spider-cms # 指定服务ID，会自动从Eureka中找到此服务的ip和端口
-      stripPrefix: false # 代理转发时去掉前缀，false:代理转发时不去掉前缀 例如:为true时请求 /product/get/1，代理转发到/get/1
-
-    # 如果多个服务需要经过路由，则同povider-product方式继续添加，例如：
-    #provider-order:
-      #path: /order/**
-      #serviceId: spider-order
-      #stripPrefix: false
+jasypt:
+  encryptor:
+    password: pig
+feign:
+  hystrix:
+    enabled: true # 开启服务熔断器
+  okhttp:
+    enabled: true
+    httpclient:
+      enabled: false
+    client:
+      config:
+        default:
+          connectTimeout: 10000
+          readTimeout: 10000
+    compression:
+      request:
+        enabled: true
+      response:
+        enabled: true
+# 在被监控服务上添加暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+  shareSecurityContext: true
+security:
+  oauth2:
+    resource:
+      loadBalanced: true
+      token-info-uri: http://localhost:3000/oauth/check_token
+    # 通用放行URL，服务个性化，请在对应配置文件覆盖
+    ignore:
+      urls:
+        - /v2/api-docs
+        - /actuator/**
+# swagger 配置
+swagger:
+  title: Pig Swagger API
+  license: Powered By spider
+  licenseUrl: https://vue.jfaith.net
+  terms-of-service-url: https://vue.jfaith.net
+  contact:
+    email: wangiegie@gmail.com
+    url: https://vue.jfaith.net
+  authorization:
+    name: pig4cloud OAuth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://${GATEWAY-HOST:pig-gateway}:${GATEWAY-PORT:9999}/auth/oauth/token
