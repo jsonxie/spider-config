@@ -1,7 +1,97 @@
+#注意：如果在记事本上编写，下面的缩进不要使用Tab来缩进，不然报错
+spring:
+  profiles:
+    active: dev # 激活开发环境配置
+---
 server:
   port: 7001
 spring:
   profiles: dev
+  application:
+    name: spider-zuul-gateway
+  redis:
+    password: 123456
+    host: localhost
+eureka:
+  client:
+    registerWithEureka: true # 服务注册开关
+    fetchRegistry: true # 服务发现开关
+    serviceUrl: # 客户端(服务提供者)注册到哪一个Eureka Server服务注册中心，多个用逗号分隔
+      # 单机版 Eureka 服务注册中心
+      #defaultZone: http://localhost:6001/eureka
+      # 集群版 Eureka 服务注册中心
+      defaultZone: http://eureka6001.com:6001/eureka,http://eureka6002.com:6002/eureka
+  instance:
+    instanceId: ${spring.application.name}:${server.port} # 指定实例ID,就不会显示主机名了
+    preferIpAddress: true     #访问路径可以显示IP地址
+jasypt:
+  encryptor:
+    password: pig
+feign:
+  hystrix:
+    enabled: true # 开启服务熔断器
+  okhttp:
+    enabled: true
+    httpclient:
+      enabled: false
+    client:
+      config:
+        default:
+          connectTimeout: 10000
+          readTimeout: 10000
+    compression:
+      request:
+        enabled: true
+      response:
+        enabled: true
+# 在被监控服务上添加暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+# hystrix 配置
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 60000
+  shareSecurityContext: true
+security:
+  oauth2:
+    resource:
+      loadBalanced: true
+      token-info-uri: http://localhost:3000/oauth/check_token
+    # 通用放行URL，服务个性化，请在对应配置文件覆盖
+    ignore:
+      urls:
+        - /v2/api-docs
+        - /actuator/**
+# swagger 配置
+swagger:
+  title: Pig Swagger API
+  license: Powered By spider
+  licenseUrl: https://vue.jfaith.net
+  terms-of-service-url: https://vue.jfaith.net
+  contact:
+    email: wangiegie@gmail.com
+    url: https://vue.jfaith.net
+  authorization:
+    name: pig4cloud OAuth
+    auth-regex: ^.*$
+    authorization-scope-list:
+      - scope: server
+        description: server all
+    token-url-list:
+      - http://${GATEWAY-HOST:pig-gateway}:${GATEWAY-PORT:9999}/auth/oauth/token
+---
+server:
+  port: 7001
+spring:
+  profiles: prod
   application:
     name: spider-zuul-gateway
   redis:
